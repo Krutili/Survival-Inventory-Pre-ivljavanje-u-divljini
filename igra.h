@@ -20,6 +20,9 @@ typedef enum {
     KORISTI_PREDMET,
     SPREMI_IGRU,
     NOVI_DAN,
+    SORTIRAJ_INVENTORY,
+    PRETRAZI_PREDMET,
+    OBRISI_PREDMET
 } OpcijaIzbornika;
 
 typedef struct {
@@ -57,3 +60,6 @@ void oslobodiMemoriju(Igrac* igrac);
 void noviDan(Igrac* igrac);
 
 int igracJeMrtav(const Igrac* igrac);
+void sortirajInventoryPoNazivu(Igrac* igrac);
+void pretraziPredmetPoNazivu(Igrac* igrac);
+void obrisiPredmet(Igrac* igrac);

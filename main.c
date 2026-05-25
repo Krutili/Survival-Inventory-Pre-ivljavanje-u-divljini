@@ -9,7 +9,7 @@
 
 int main() {
 
-    Igrac igrac;
+    Igrac igrac; {};
 
     int izbor;
     int radi = 1;
@@ -75,6 +75,18 @@ int main() {
                 radi = 0;
             }
 
+            break;
+       
+        case SORTIRAJ_INVENTORY:
+            sortirajInventoryPoNazivu(&igrac);
+            break;
+
+        case PRETRAZI_PREDMET:
+            pretraziPredmetPoNazivu(&igrac);
+            break;
+
+        case OBRISI_PREDMET:
+            obrisiPredmet(&igrac);
             break;
 
         case IZLAZ:
