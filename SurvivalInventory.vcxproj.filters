@@ -18,5 +18,19 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="igra.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="datoteke.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="datoteke.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="igra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
