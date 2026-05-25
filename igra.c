@@ -27,6 +27,9 @@ void prikaziGlavniIzbornik() {
     printf("6. Koristi predmet\n");
     printf("7. Spremi igru\n");
     printf("8. Novi dan\n");
+    printf("9. Sortiraj inventory po nazivu\n");
+    printf("10. Pretrazi predmet po nazivu\n");
+    printf("11. Obrisi predmet\n");
     printf("0. Izlaz\n");
 }
 
@@ -217,4 +220,109 @@ int igracJeMrtav(const Igrac* igrac) {
     }
 
     return 0;
+}
+
+int usporediPredmetePoNazivu(const void* a, const void* b) {
+
+    const Predmet* predmetA = (const Predmet*)a;
+    const Predmet* predmetB = (const Predmet*)b;
+
+    return strcmp(predmetA->naziv, predmetB->naziv);
+}
+
+int usporediPredmetSKljucem(const void* kljuc, const void* element) {
+
+    const char* trazeniNaziv = (const char*)kljuc;
+    const Predmet* predmet = (const Predmet*)element;
+
+    return strcmp(trazeniNaziv, predmet->naziv);
+}
+
+void sortirajInventoryPoNazivu(Igrac* igrac) {
+
+    if (igrac->brojPredmeta == 0) {
+
+        printf("Inventory je prazan.\n");
+        return;
+    }
+
+    qsort(
+        igrac->inventory,
+        igrac->brojPredmeta,
+        sizeof(Predmet),
+        usporediPredmetePoNazivu
+    );
+
+    printf("Inventory je sortiran po nazivu.\n");
+}
+
+void pretraziPredmetPoNazivu(Igrac* igrac) {
+
+    char trazeniNaziv[MAKS_NAZIV];
+
+    if (igrac->brojPredmeta == 0) {
+
+        printf("Inventory je prazan.\n");
+        return;
+    }
+
+    sortirajInventoryPoNazivu(igrac);
+
+    printf("Unesi naziv predmeta za pretragu: ");
+    fgets(trazeniNaziv, MAKS_NAZIV, stdin);
+
+    trazeniNaziv[strcspn(trazeniNaziv, "\n")] = '\0';
+
+    Predmet* pronadeniPredmet = bsearch(
+        trazeniNaziv,
+        igrac->inventory,
+        igrac->brojPredmeta,
+        sizeof(Predmet),
+        usporediPredmetSKljucem
+    );
+
+    if (pronadeniPredmet != NULL) {
+
+        printf("Predmet je pronaden.\n");
+        printf("Naziv: %s\n", pronadeniPredmet->naziv);
+        printf("Kolicina: %d\n", pronadeniPredmet->kolicina);
+        printf("Vrijednost: %d\n", pronadeniPredmet->vrijednost);
+    }
+    else {
+
+        printf("Predmet nije pronaden.\n");
+    }
+}
+
+void obrisiPredmet(Igrac* igrac) {
+
+    int odabir;
+
+    if (igrac->brojPredmeta == 0) {
+
+        printf("Inventory je prazan.\n");
+        return;
+    }
+
+    prikaziInventory(igrac);
+
+    printf("Odaberi redni broj predmeta za brisanje: ");
+    scanf("%d", &odabir);
+
+    ocistiUlaz();
+
+    if (odabir < 1 || odabir > igrac->brojPredmeta) {
+
+        printf("Neispravan odabir.\n");
+        return;
+    }
+
+    for (int i = odabir - 1; i < igrac->brojPredmeta - 1; i++) {
+
+        igrac->inventory[i] = igrac->inventory[i + 1];
+    }
+
+    igrac->brojPredmeta--;
+
+    printf("Predmet je obrisan iz inventoryja.\n");
 }
